@@ -105,3 +105,25 @@ document.querySelector('.botones').addEventListener('click', (evento) => {
     }
     pantalla.innerText = operacionActual;
 });
+const bodyElement = document.body;
+function mapRange(value, inMin, inMax, outMin, outMax) {
+    return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+}
+
+window.addEventListener('mousemove', (evento) => {
+    
+    const centroX = window.innerWidth / 2;
+    const centroY = window.innerHeight / 2;
+    
+    const distX = (evento.clientX - centroX) / centroX;
+    const distY = (evento.clientY - centroY) / centroY;
+    
+    const color1 = `hsl(${mapRange(distX, -1, 1, 0, 120)}, 80%, 60%, 0.4)`; 
+    const color2 = `hsl(${mapRange(distY, -1, 1, 240, 360)}, 80%, 60%, 0.4)`; 
+    
+    const radialCenterX = mapRange(evento.clientX, 0, window.innerWidth, 20, 80);
+    const radialCenterY = mapRange(evento.clientY, 0, window.innerHeight, 20, 80);
+    
+    bodyElement.style.setProperty('--gradient-mesh', 
+        `radial-gradient(circle at ${radialCenterX}% ${radialCenterY}%, ${color1}, ${color2})`);
+});
